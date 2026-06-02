@@ -6,6 +6,7 @@
 #include <LittleFS.h>
 
 #include "apps/buddy.h"
+#include "apps/chat.h"
 #include "apps/radio.h"
 #include "apps/orbit.h"
 #include "apps/snake.h"
@@ -136,6 +137,7 @@ void loop() {
         switch (g_current) {
             case Screen::LAUNCHER:  ui::Launcher::enter();    break;
             case Screen::POCKET:    pocket::enter();          break;
+            case Screen::CHAT:      apps::chat::enter();      break;
             case Screen::BUDDY:     apps::buddy::enter();     break;
             case Screen::SNAKE:     apps::snake::enter();     break;
             case Screen::ORBIT:     apps::orbit::enter();     break;
@@ -149,6 +151,7 @@ void loop() {
     switch (g_current) {
         case Screen::LAUNCHER:  ui::Launcher::tick();    break;
         case Screen::POCKET:    pocket::tick();          break;
+        case Screen::CHAT:      apps::chat::tick();      break;
         case Screen::BUDDY:     apps::buddy::tick();     break;
         case Screen::SNAKE:     apps::snake::tick();     break;
         case Screen::ORBIT:     apps::orbit::tick();     break;

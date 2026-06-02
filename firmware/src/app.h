@@ -5,6 +5,7 @@ namespace app {
 enum class Screen {
     LAUNCHER,
     POCKET,
+    CHAT,
     BUDDY,
     SNAKE,
     ORBIT,
