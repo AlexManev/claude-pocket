@@ -6,6 +6,7 @@ enum class Screen {
     LAUNCHER,
     POCKET,
     CHAT,
+    EIGHTBALL,
     BUDDY,
     SNAKE,
     ORBIT,

@@ -7,6 +7,7 @@
 
 #include "apps/buddy.h"
 #include "apps/chat.h"
+#include "apps/eightball.h"
 #include "apps/radio.h"
 #include "apps/orbit.h"
 #include "apps/snake.h"
@@ -138,6 +139,7 @@ void loop() {
             case Screen::LAUNCHER:  ui::Launcher::enter();    break;
             case Screen::POCKET:    pocket::enter();          break;
             case Screen::CHAT:      apps::chat::enter();      break;
+            case Screen::EIGHTBALL: apps::eightball::enter(); break;
             case Screen::BUDDY:     apps::buddy::enter();     break;
             case Screen::SNAKE:     apps::snake::enter();     break;
             case Screen::ORBIT:     apps::orbit::enter();     break;
@@ -152,6 +154,7 @@ void loop() {
         case Screen::LAUNCHER:  ui::Launcher::tick();    break;
         case Screen::POCKET:    pocket::tick();          break;
         case Screen::CHAT:      apps::chat::tick();      break;
+        case Screen::EIGHTBALL: apps::eightball::tick(); break;
         case Screen::BUDDY:     apps::buddy::tick();     break;
         case Screen::SNAKE:     apps::snake::tick();     break;
         case Screen::ORBIT:     apps::orbit::tick();     break;
