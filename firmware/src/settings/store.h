@@ -25,6 +25,12 @@ struct Store {
     uint8_t volume_pct = 60;
     uint8_t brightness_pct = 80;
     bool wake_word_on = false;
+    // SSH client — last destination, so the connect form pre-fills. The
+    // password is deliberately NOT persisted; the user re-enters it each
+    // session (host key trust lives in LittleFS /known_hosts instead).
+    std::string ssh_host;
+    std::string ssh_user;
+    uint16_t ssh_port = 22;
 };
 
 Store& store();

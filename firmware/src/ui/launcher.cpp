@@ -28,6 +28,7 @@ constexpr Entry ENTRIES[] = {
     {"Orbit Fighter",  "Pixel shmup",     app::Screen::ORBIT},
     {"Radio",         "Internet radio",  app::Screen::RADIO},
     {"Snake",         "Classic",         app::Screen::SNAKE},
+    {"SSH",           "Remote shell",    app::Screen::SSH},
     {"Translator",    "Voice translate", app::Screen::TRANSLATE},
     {"Weather",       "Local forecast",  app::Screen::WEATHER},
     {"Settings",      "WiFi, BT, Audio", app::Screen::SETTINGS},

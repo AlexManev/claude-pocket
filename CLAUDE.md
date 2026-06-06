@@ -33,8 +33,20 @@ launcher, status bar, Snake (with difficulty menu), Settings (Wi-Fi
 scanner, BT toggle, volume), the full Pocket voice pipeline with VAD,
 auto-speak, conversation history, and animated spark across every state.
 
+The **SSH** launcher entry (`firmware/src/apps/ssh*`) adds an interactive
+remote shell: a connect form, a libssh session (LibSSH-ESP32, mbedTLS backend)
+running in its own FreeRTOS task, a VT100-subset terminal emulator
+(`ssh_term.cpp`, 40×15 cells), and TOFU host-key verification against a
+LittleFS `known_hosts`. See SPEC §12.7 for the memory/threading constraints.
+
 Open work:
 
+- **SSH** is implemented but has **not been built or run on hardware yet** —
+  PlatformIO wasn't available in the authoring environment. The first
+  on-device build needs to confirm (a) LibSSH-ESP32 links against
+  arduino-esp32 2.x's mbedTLS and (b) the 50 KB session-task stack actually
+  fits the post-Wi-Fi heap on the no-PSRAM S3 (SPEC §12.7). If task creation
+  OOMs, the failure is handled gracefully but the feature won't connect.
 - **Claude Buddy** entry is still a stub; the BLE companion lives in the
   MicroPython buddy bundle and hasn't been ported yet.
 - **Wake word (M7)** — needs a custom "Claude" ESP-SR WakeNet model,

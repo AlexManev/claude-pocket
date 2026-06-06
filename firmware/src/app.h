@@ -12,6 +12,7 @@ enum class Screen {
     WEATHER,
     RADIO,
     TRANSLATE,
+    SSH,
     SETTINGS,
 };
 
