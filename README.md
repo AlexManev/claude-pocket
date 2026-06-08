@@ -39,7 +39,7 @@ Claude voice assistant in about ten minutes:
 
 ## What it does
 
-A Claude-styled launcher with eight entries:
+A Claude-styled launcher with nine entries:
 
 - **Claude Pocket** — the voice assistant. Press OK, speak, the device auto-
   detects when you're done (VAD), transcribes, thinks, and speaks back. The
@@ -72,6 +72,16 @@ A Claude-styled launcher with eight entries:
   Claude translates with a translation-only system prompt, OpenAI TTS speaks
   the result. L swaps source ↔ target. Default direction: DE → EN. Enter
   also stops the recording manually if you don't want to wait for the VAD.
+- **SSH** — interactive SSH client. Fill in host / user / password / port, and
+  the device opens a remote shell rendered through a small VT100 emulator
+  (40×15 cells). Built on [LibSSH-ESP32](https://github.com/ewpa/LibSSH-ESP32),
+  reusing the mbedTLS already linked for the cloud calls as libssh's crypto
+  backend. Host keys are verified TOFU against a LittleFS `known_hosts` file
+  (accept once on first connect). The session runs in its own FreeRTOS task
+  because libssh needs a far deeper call stack than the Arduino loopTask. Keys:
+  the **esc/`** key sends Esc; **Ctrl+letter** sends control chars; **Fn + ;
+  . , /** are the arrow keys; **Fn + `** leaves the app. See
+  [`src/apps/ssh*`](firmware/src/apps/).
 - **Settings** — Wi-Fi scanner with multi-network roaming, Bluetooth toggle,
   speaker volume, display brightness, and an **About** screen with firmware
   version, free heap, uptime, IP, WiFi RSSI and MAC.

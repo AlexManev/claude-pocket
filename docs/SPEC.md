@@ -378,3 +378,40 @@ The Arduino-esp32 main task runs on an 8 KB stack. A naive
 the stack-canary watchpoint and reset the device. Every working buffer in
 the HTTP / TTS / playback path is now `static uint8_t buf[…]` so it lives
 in `.bss` instead.
+
+### 12.7 SSH runs in its own task, with TOFU host keys
+
+The **SSH** app (`src/apps/ssh.cpp`, `src/apps/ssh_term.cpp`) uses
+[LibSSH-ESP32](https://github.com/ewpa/LibSSH-ESP32) — Ewan Parker's libssh
+port — configured to use the **mbedTLS already linked for the cloud calls** as
+its crypto backend, so it adds the SSH protocol layer without a second crypto
+stack in flash. Unlike the TLS body-read issue in §12.1, SSH is its own
+transport over raw TCP and never touches the mbedTLS record layer, so the
+truncation workaround is irrelevant here.
+
+Two constraints shaped the design:
+
+- **Call stack.** libssh's key exchange is far too deep for the 8 KB Arduino
+  `loopTask` (§12.6). The whole blocking session runs in a dedicated FreeRTOS
+  task with a ~50 KB stack (the size the LibSSH-ESP32 examples use). On the
+  no-PSRAM S3 that stack is a large slice of the ~90 KB post-Wi-Fi heap
+  (§12.2); it's only workable because SSH never runs alongside the voice
+  pipeline. If `xTaskCreatePinnedToCore` fails for lack of heap the app shows
+  "Not enough memory for SSH" rather than crashing.
+- **One drawer of M5GFX.** The display and keyboard are driven from the UI
+  loop, so the session task must never draw. It only mutates a shared terminal
+  grid + status string under a mutex and signals via small volatiles; the UI
+  `tick()` does all rendering (diffed, cell-by-cell) and translates keystrokes
+  into a FreeRTOS stream buffer the task drains. Keystrokes the Cardputer has
+  no dedicated key for are remapped: the esc/`` ` `` key sends Esc, `Ctrl`+
+  letter sends control chars, `Fn`+`;`/`.`/`,`/`/` are the arrows, and
+  `Fn`+`` ` `` leaves the app.
+
+Host keys are verified TOFU against `/littlefs/known_hosts`: on an unknown or
+changed key the UI shows the SHA256 fingerprint and waits for the user to
+accept before the key is saved — deliberately *not* the `setInsecure()` posture
+the TLS path still uses (§ CLAUDE.md open work).
+
+**Status:** written against the libssh API but **not yet built or run on
+hardware** — PlatformIO wasn't available when the app was authored. The first
+on-device build must confirm the LibSSH-ESP32 link and the task-stack/heap fit.

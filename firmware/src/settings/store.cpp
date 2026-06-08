@@ -48,6 +48,9 @@ void load() {
     g_store.volume_pct     = p.getUChar("vol", 60);
     g_store.brightness_pct = p.getUChar("bright", 80);
     g_store.wake_word_on   = p.getBool("wake", false);
+    g_store.ssh_host       = p.getString("sshhost", "").c_str();
+    g_store.ssh_user       = p.getString("sshuser", "").c_str();
+    g_store.ssh_port       = p.getUShort("sshport", 22);
     std::string nets = p.getString("nets", "").c_str();
     p.end();
     deserialize_networks(nets);
@@ -67,6 +70,9 @@ void save() {
     p.putUChar("vol", g_store.volume_pct);
     p.putUChar("bright", g_store.brightness_pct);
     p.putBool("wake", g_store.wake_word_on);
+    p.putString("sshhost", g_store.ssh_host.c_str());
+    p.putString("sshuser", g_store.ssh_user.c_str());
+    p.putUShort("sshport", g_store.ssh_port);
     p.putString("nets", serialize_networks().c_str());
     p.end();
 }

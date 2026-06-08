@@ -10,6 +10,7 @@
 #include "apps/radio.h"
 #include "apps/orbit.h"
 #include "apps/snake.h"
+#include "apps/ssh.h"
 #include "apps/translate.h"
 #include "apps/weather.h"
 #include "audio/io.h"
@@ -144,6 +145,7 @@ void loop() {
             case Screen::WEATHER:   apps::weather::enter();   break;
             case Screen::RADIO:     apps::radio::enter();     break;
             case Screen::TRANSLATE: apps::translate::enter(); break;
+            case Screen::SSH:       apps::ssh::enter();       break;
             case Screen::SETTINGS:  settings::enter();        break;
         }
     }
@@ -158,6 +160,7 @@ void loop() {
         case Screen::WEATHER:   apps::weather::tick();   break;
         case Screen::RADIO:     apps::radio::tick();     break;
         case Screen::TRANSLATE: apps::translate::tick(); break;
+        case Screen::SSH:       apps::ssh::tick();       break;
         case Screen::SETTINGS:  settings::tick();        break;
     }
 
